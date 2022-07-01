@@ -5,8 +5,8 @@
     </div>
   </div>
   <div :class="styles.container">
-    <word-tiles />
-    <key-board />
+    <WordTiles />
+    <KeyBoard @onKeyBoard="addWordInTile" />
   </div>
 </template>
 
@@ -14,13 +14,38 @@
 import { onMounted, ref } from "vue";
 import KeyBoard from "@/components/KeyBoard.vue";
 import WordTiles from "@/components/WordTiles.vue";
+import words from "@/utils/words.json";
+import alphabets from "@/utils/alphabets.json";
 
 const theme = ref(localStorage.getItem("theme") || "dark");
 
+const word = ref();
+
+const getRandomWord = () => {
+  return words[Math.floor(Math.random() * words.length)];
+};
+
+const alphabet = new Set(alphabets);
+
 onMounted(() => {
+  window.addEventListener("keyup", handleKeyUp);
+  word.value = getRandomWord();
   let root = document.querySelector(":root");
   root.setAttribute("data-theme", theme.value);
 });
+
+const handleKeyUp = ({ key }) => {
+  if (!alphabet.has(key)) return;
+  addWordInTile(key.toUpperCase());
+};
+
+const addWordInTile = (word) => {
+  console.log(word);
+};
+
+const clearWordInTile = (row) => {
+  console.log(row);
+};
 </script>
 
 <style lang="scss" module="styles">
@@ -37,7 +62,8 @@ onMounted(() => {
   --tile-border-color: #3a3a3c;
   --yellow-bg: #b59f3b;
   --green-bg: #538d4e;
-  --grey-bg: #3a3a3c;
+  --dark-grey-bg: #3a3a3c;
+  --grey-bg: #818384;
 }
 
 :root[data-theme="light"] {
@@ -46,8 +72,9 @@ onMounted(() => {
   --keyboard-bg: #818384;
   --tile-border-color: #d3d6da;
   --green-bg: #6aaa64;
-  --grey-bg: #777c7e;
+  --dark-grey-bg: #777c7e;
   --yellow-bg: #c9b458;
+  --grey-bg: #d3d6da;
 }
 
 body {
@@ -67,8 +94,15 @@ body {
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
   max-width: 600px;
   width: 100%;
   margin: 0px auto;
+  min-height: calc(100vh - 63px);
+  padding: 15px 0px;
+  user-select: none;
 }
 </style>
