@@ -18,13 +18,16 @@
     />
   </div>
   <Modal :isOpen="win" :toggle="reset">
-    <div>
-      <span>Win</span>
+    <div :class="styles.popup_msg">
+      <span>Won the game!</span>
+      <button @click="reset">Restart</button>
     </div>
   </Modal>
   <Modal :isOpen="lose" :toggle="reset">
-    <div>
-      <span>Lose</span>
+    <div :class="styles.popup_msg">
+      <span>Lost the game!</span>
+      <span>The word is {{ word }}</span>
+      <button @click="reset">Restart</button>
     </div>
   </Modal>
   <Alert :message="message" @onClose="message = ''" />
@@ -97,7 +100,7 @@ const handleKeyUp = ({ key }) => {
 
 const handleState = (element, index) => {
   let { word } = state;
-  let letter = element.textContent;
+  let letter = element.textContent.toLowerCase();
 
   if (word[index] === letter) {
     element.setAttribute("data-state", "correct");
@@ -131,10 +134,12 @@ const handleEnter = () => {
 
     if (wordList.has(typedWord)) {
       keys
-        .filter(({ textContent }) => typedWord.includes(textContent))
+        .filter(({ textContent }) =>
+          typedWord.includes(textContent.toLowerCase())
+        )
         .map((ele) => {
           let { textContent } = ele;
-          handleState(ele, typedWord.indexOf(textContent));
+          handleState(ele, typedWord.indexOf(textContent.toLowerCase()));
         });
 
       row.forEach((ele, index) => {
@@ -169,7 +174,7 @@ const handleEnter = () => {
                 if (activeRow < 5) {
                   state.activeRow = activeRow + 1;
                 } else {
-                  state.lose = false;
+                  state.lose = true;
                 }
               }
             }
@@ -194,6 +199,17 @@ const handleEnter = () => {
 };
 
 const reset = () => {
+  let rows = [...document.querySelectorAll(`[data-row]`)];
+  let keys = [...document.querySelectorAll("[data-key]")];
+
+  rows.forEach((ele) => {
+    ele.removeAttribute("data-state");
+  });
+
+  keys.forEach((ele) => {
+    ele.removeAttribute("data-state");
+  });
+
   state.rows = ["", "", "", "", "", ""];
   state.activeRow = 0;
   state.win = false;
@@ -255,5 +271,25 @@ let { rows, word, win, lose, theme, message } = toRefs(state);
   min-height: calc(100vh - 63px);
   padding: 15px 0px;
   user-select: none;
+}
+
+.popup_msg {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0px;
+  font-size: 24px;
+  button {
+    background-color: #4185f4;
+    color: white;
+    padding: 10px 0px;
+    width: 120px;
+    font-size: 18px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
 }
 </style>
