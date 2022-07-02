@@ -74,6 +74,7 @@ onMounted(() => {
   setTheme(theme);
   state.theme = theme;
   state.word = getRandomWord();
+  console.log(state.word);
 });
 
 const getRandomWord = () => {
@@ -211,6 +212,7 @@ const reset = () => {
   });
 
   state.rows = ["", "", "", "", "", ""];
+  state.word = getRandomWord();
   state.activeRow = 0;
   state.win = false;
   state.lose = false;
