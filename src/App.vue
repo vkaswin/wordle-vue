@@ -74,7 +74,6 @@ onMounted(() => {
   setTheme(theme);
   state.theme = theme;
   state.word = getRandomWord();
-  console.log(state.word);
 });
 
 const getRandomWord = () => {
