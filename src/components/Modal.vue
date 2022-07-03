@@ -103,7 +103,7 @@ let { isOpen, toggle } = toRefs(props);
   .modal {
     overflow-y: hidden;
     &:is(.show) {
-      .rc-modal-dialog {
+      .modal_dialog {
         animation: slideInBottom 0.3s linear forwards;
       }
     }

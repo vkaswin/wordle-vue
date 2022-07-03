@@ -268,8 +268,8 @@ let { rows, word, win, lose, theme, message } = toRefs(state);
   gap: 20px;
   max-width: 600px;
   width: 100%;
+  height: calc(100vh - 63px);
   margin: 0px auto;
-  min-height: calc(100vh - 63px);
   padding: 15px 0px;
   user-select: none;
 }

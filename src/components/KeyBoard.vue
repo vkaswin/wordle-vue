@@ -39,12 +39,12 @@
 <script setup>
 import keyboard from "@/utils/keyboard.json";
 
-const emit = defineEmits(["onKeyBoard"]);
+const emit = defineEmits(["onKeyBoard", "onEnter", "onBackSpace"]);
 
 const handleClick = (key) => {
-  if (key === "ENTER") {
+  if (key === "enter") {
     emit("onEnter");
-  } else if (key === "BACKSPACE") {
+  } else if (key === "backspace") {
     emit("onBackSpace");
   } else {
     emit("onKeyBoard", key);
@@ -73,6 +73,7 @@ const { one, two, three } = keyboard;
       font-size: 16px;
       font-family: "Poppins", sans-serif;
       cursor: pointer;
+      text-transform: capitalize;
     }
 
     button[data-key="enter"] {

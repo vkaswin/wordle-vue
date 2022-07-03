@@ -66,4 +66,27 @@ const { rows } = toRefs(props);
     background-color: var(--green-bg);
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .rows {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(55px, 1fr));
+    gap: 10px;
+    margin: 0px auto;
+    .card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      width: 100%;
+      height: 55px;
+      background-color: var(--bg-color);
+      border: 2px solid var(--tile-border-color);
+      color: var(--text-color);
+      font-weight: bold;
+      font-family: "Poppins", sans-serif;
+      text-transform: capitalize;
+    }
+  }
+}
 </style>
